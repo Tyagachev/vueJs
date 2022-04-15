@@ -1,7 +1,20 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
+    <hr>
+    <input v-model.number="operand1" />
+    <input v-model.number="operand2" />
+    <p v-if="result == Infinity">На ноль делить нельзя</p>
+    <p v-else>= {{ result }}</p>
+    <br>
+    <button v-on:click="sum">+</button>
+    <button v-on:click="result = operand1 - operand2 ">-</button>
+    <button v-on:click="sub">/</button>
+    <button v-on:click="multiply">*</button>
+
+
+
+    <!--<p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
@@ -30,7 +43,7 @@
       <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    </ul>-->
   </div>
 </template>
 
@@ -39,8 +52,32 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
-  }
-}
+  },
+
+  data() {
+    return {
+    result: 0,
+      operand1: 0,
+      operand2: 0,
+    };
+  },
+
+  methods: {
+    sum(){
+      this.result = this.operand1 + this.operand2
+    },
+
+    sub() {
+      const {operand1,operand2} = this
+      this.result = operand1 / operand2
+    },
+
+    multiply() {
+      this.result = this.operand1 * this.operand2
+    },
+  },
+};
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
