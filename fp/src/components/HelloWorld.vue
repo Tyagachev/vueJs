@@ -7,10 +7,22 @@
     <p v-if="result == Infinity">На ноль делить нельзя</p>
     <p v-else>= {{ result }}</p>
     <br>
-    <button v-on:click="sum">+</button>
-    <button v-on:click="result = operand1 - operand2 ">-</button>
-    <button v-on:click="sub">/</button>
-    <button v-on:click="multiply">*</button>
+    <button @click="sum">+</button>
+    <button @click="result = operand1 - operand2 ">-</button>
+    <button @click="sub">/</button>
+    <button @click="multiply">*</button>
+
+    <hr>
+    <div class="test">
+          <input type="checkbox" id="checkbox" v-model="checked" />Отобразить клавиатуру
+          <div v-if="checked == true">
+          <button v-for="collection in collections" :key="collection">{{ collection }}</button>
+        </div>
+    </div>
+    <input type="radio" id="one" v-model="operand1">Операнд 1
+    <input type="radio" id="two" v-model="operand2">Операнд 2
+  
+
 
 
 
@@ -56,13 +68,16 @@ export default {
 
   data() {
     return {
-    result: 0,
+      result: 0,
       operand1: 0,
       operand2: 0,
+      checked: true,
+      collections: [0, 1, 2, 4, 5, 6, 7, 8, 9],
     };
   },
 
   methods: {
+
     sum(){
       this.result = this.operand1 + this.operand2
     },
