@@ -1,29 +1,34 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+
     <hr>
-    <input v-model.number="operand1" />
-    <input v-model.number="operand2" />
+
+    <input v-model.number="operand1" ref="input1" />
+    <input v-model.number="operand2" ref="input2" />
     <p v-if="result == Infinity">На ноль делить нельзя</p>
     <p v-else>= {{ result }}</p>
     <br>
-    <button @click="sum">+</button>
-    <button @click="result = operand1 - operand2 ">-</button>
-    <button @click="sub">/</button>
-    <button @click="multiply">*</button>
+    <button @click="sum()">+</button>
+    <button @click="substract()">-</button>
+    <button @click="multiply()">*</button>
+    <button @click="divide()">/</button>
 
     <hr>
+
     <div class="test">
           <input type="checkbox" id="checkbox" v-model="checked" />Отобразить клавиатуру
           <div v-if="checked == true">
-          <button v-for="collection in collections" :key="collection">{{ collection }}</button>
+          <button @click="input(num)" v-for="num in numbers" :key="num">{{ num }}</button>
         </div>
     </div>
-    <input type="radio" id="one" v-model="operand1">Операнд 1
-    <input type="radio" id="two" v-model="operand2">Операнд 2
+    
+    <input @click="foc1()" type="radio" name="test" value="operand1" v-model="picked" />Операнд 1
+    <input @click="foc2()" type="radio" name="test" value="operand2" v-model="picked" />Операнд 2
+    <!--<div v-for="pic in picked" :key="pic">{{pic}}</div>-->
+
+    
   
-
-
 
 
     <!--<p>
@@ -68,23 +73,62 @@ export default {
 
   data() {
     return {
-      result: 0,
+      result: '',
       operand1: 0,
       operand2: 0,
       checked: true,
-      collections: [0, 1, 2, 4, 5, 6, 7, 8, 9],
+      numbers: [1, 2, 4, 5, 6, 7, 8, 9, 0],
+      operands: ["+", "-", "/", "*"],
+      picked:[],
     };
   },
 
   methods: {
+    input(test) {
+      if(this.picked==this.operand1){
+        this.operand1+=test
+      }
+      if(this.picked==this.operand2){
+        this.operand2+=test
+      }
+    },
+
+    calculate(operation) {
+      this.error = "";
+      switch (operation) {
+        case "+":
+          this.sum();
+          break;
+        case "-":
+          this.substract();
+          break;
+        case "*":
+          this.multiply();
+          break;
+        case "/":
+          this.divide();
+          break;
+      }
+    },
+    
+    foc1() {
+        this.$refs.input1.focus();
+    },
+
+    foc2() {
+        this.$refs.input2.focus();
+    },
 
     sum(){
       this.result = this.operand1 + this.operand2
     },
 
-    sub() {
-      const {operand1,operand2} = this
-      this.result = operand1 / operand2
+    substract() {
+      this.result = this.operand1-this.operand2
+    },
+
+    divide() {
+      this.result = this.operand1 / this.operand2
     },
 
     multiply() {
