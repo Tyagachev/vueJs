@@ -5,7 +5,7 @@
     <div v-show="visible">
     <!--<input v-model="date"  placeholder="date"/>-->
     <input v-model="category" placeholder="category"/>
-    <input v-model="value" placeholder="value"/>
+    <input v-model.number="value" placeholder="value"/>
     <button @click="onClickSave">Save</button>
     </div>
   </div>
@@ -26,6 +26,9 @@ export default {
       const today = new Date()
       const shortDate = new Intl.DateTimeFormat("ru", {dateStyle: "short"}).format(today);
       return shortDate
+    },
+    categoryList(){
+      return this.$store.getters.getCategoryList
     }
   },
   methods: {
@@ -35,8 +38,9 @@ export default {
         category: this.category,
         value: this.value
       }
-      this.$emit('addNewPayment', data)
-      console.log(data);
+      this.$store.commit('addDataToPaymentsList', data)
+      //this.$emit('addNewPayment', data)
+      //console.log(data);
     }
   },
 }
